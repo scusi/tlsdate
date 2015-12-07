@@ -9,7 +9,7 @@ i copied the crypto/tls package from golang and modified it in order to add need
 
 Also my commandline flags are different from the original.
 
- tlsdate -host="posteo.de" -port=443 -set=true
+ ```tlsdate -host="posteo.de" -port=443 -set=true```
 
  tlsdate -host="myhost.noip.net" -port="443" -skipVerify=true
 
