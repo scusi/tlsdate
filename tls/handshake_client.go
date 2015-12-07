@@ -14,14 +14,15 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"log" // changed by scusi, added line
 	"net"
 	"strconv"
-    "log"       // changed by scusi, added line
 )
 
 // ServerHeloTime contains the first 4 byte from the 'random' field of the server helo message.
 // In versions of TLS before 1.2 those 4 byte contain the servers time.
 var ServerHeloTime int64
+
 // TLSDATE_VERBOSE, if set to true, verbose messages will be logged
 var TLSDATE_VERBOSE bool = false
 
@@ -155,35 +156,35 @@ NextCipherSuite:
 		return unexpectedMessageError(serverHello, msg)
 	}
 
-    // ## added by scusi #####################################################
-    // HACK: to extract the upper 32 bits of the random value from the 
-    //       server hello message.
-    //       In TLS versions smaller 1.2 those 32 bits are the unix timestamp
-    //       of the server clock.
-    if TLSDATE_VERBOSE == true {
-        log.Printf("serverHello.random: %#v\n", serverHello.random)
-    }
-    var buf = make([]byte, 4)
-    random := serverHello.random
-    rdr := bytes.NewReader(random)
-    i, err := rdr.Read(buf)
-    if err != nil {
-        log.Println(err)
-    }
-    if i != 4 {
-        log.Printf("i is not 4, i is: '%d'\n", i)
-    }
-    if TLSDATE_VERBOSE == true {
-        log.Printf("buf: %#v\n", buf)
-    }
-    // buf in int verwandeln
-    bufS := fmt.Sprintf("%#x", buf)
-    i64, err := strconv.ParseInt(bufS, 0, 64)
-    if err != nil {
-        log.Fatal(err)
-    }
-    ServerHeloTime = i64
-    // ## end added by scusi #################################################
+	// ## added by scusi #####################################################
+	// HACK: to extract the upper 32 bits of the random value from the
+	//       server hello message.
+	//       In TLS versions smaller 1.2 those 32 bits are the unix timestamp
+	//       of the server clock.
+	if TLSDATE_VERBOSE == true {
+		log.Printf("serverHello.random: %#v\n", serverHello.random)
+	}
+	var buf = make([]byte, 4)
+	random := serverHello.random
+	rdr := bytes.NewReader(random)
+	i, err := rdr.Read(buf)
+	if err != nil {
+		log.Println(err)
+	}
+	if i != 4 {
+		log.Printf("i is not 4, i is: '%d'\n", i)
+	}
+	if TLSDATE_VERBOSE == true {
+		log.Printf("buf: %#v\n", buf)
+	}
+	// buf in int verwandeln
+	bufS := fmt.Sprintf("%#x", buf)
+	i64, err := strconv.ParseInt(bufS, 0, 64)
+	if err != nil {
+		log.Fatal(err)
+	}
+	ServerHeloTime = i64
+	// ## end added by scusi #################################################
 
 	vers, ok := c.config.mutualVersion(serverHello.vers)
 	if !ok || vers < VersionTLS10 {
