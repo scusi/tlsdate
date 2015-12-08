@@ -13,8 +13,8 @@ It does work fine but it is much more simplistic than the original tlsdate.
 Other than the original tlsdate it does NOT:
 - check system time on startup and sets it to COMPILE_TIME if older.
 - check extracted time to be sane
-- support extraction of HTTP Request Timestamp extraction
-- can run as a deamon
+- support of HTTP Request Timestamp extraction
+- run as a deamon
 - come with an init script
 
 This code can set the clock but unlike the original it uses the system 
