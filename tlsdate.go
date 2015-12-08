@@ -14,13 +14,13 @@
 //
 // USAGE:
 //
-//  tlsdate -host="posteo.de" -port=443 -set=true
+//  tlsdate -host="posteo.de" -set=true
 //
 // above command will set the local system time to the given time from "posteo.de:443" tls connection.
 //
-//  tlsdate -host="myhost.noip.net" -port="443" -skipVerify=true
+//  tlsdate -host="mail.whatever.net" -port="993" -skipVerify=true
 //
-// above command would skip certificate checking with myhost.noip.net:443
+// above command would skip certificate checking, and uses port 993 (IMAPS) instead of the default
 //
 package main
 
@@ -97,13 +97,12 @@ func main() {
 	}
 	// after we have a connection tls.ServerHeloTime should be set
 	// TODO: sanity checking of provided input
-	// convert int64 to time.Time
-	t := time.Unix(tls.ServerHeloTime, 0)
+    t := int64ToTime(tls.ServerHeloTime)
 	// print the time
-	fmt.Printf("ServerHeloTime: %s\n", t)
+	fmt.Printf("TLS extracted timestamp: %s\n", t)
 	// if variable 'set' is true, we set system time
 	if set == true {
-		err := setTime(&t)
+		err := setTime(t)
 		if err != nil {
 			log.Println(err)
 			log.Printf("time was not set, due to an error\n")
@@ -113,6 +112,12 @@ func main() {
 		}
 	}
 	conn.Close()
+}
+
+func int64ToTime(i int64) (t *time.Time) {
+	ts := time.Unix(i, 0)
+    t = &ts
+    return t
 }
 
 // setTime sets the system time to given time.
