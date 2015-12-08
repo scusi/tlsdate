@@ -26,8 +26,8 @@ Also my commandline flags are different from the original, see USAGE.
 
 ## Usage
 
-
-```Usage of tlsdate:
+```
+Usage of tlsdate:
   -host="": host to connect to
   -port="443": port to connect to, on remote host
   -set=false: sets system time to tls time, when true
