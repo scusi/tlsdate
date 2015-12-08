@@ -13,14 +13,16 @@ Also my commandline flags are different from the original.
 
 ## Usage
 
- ```tlsdate -host="posteo.de" -port=443 -set=true```
+ ```tlsdate -host="posteo.de" -set=true```
 
 sets the system-clock to the date 'posteo.de' returned in a tls session negotiation.
+default port used is 443, but you can specify a port, see next example.
 
+ ```tlsdate -host="mail.whatever.net" -port="993" -skipVerify=true```
 
- ```tlsdate -host="myhost.noip.net" -port="443" -skipVerify=true```
-
-prints systemtime from 'myhost.noip.net', ssl certificates will not be verified.
+prints systemtime from 'myhost.noip.net', does not set the clock.
+Certificate validation is turned off (skipVerify).
+Uses IMAPS (993) instead of HTTPS (443) port.
 
 The 'skipVerify' option is needed e.g. if:
 - remote cert is a self-signed cert.
