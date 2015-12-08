@@ -1,7 +1,5 @@
 # tlsdate
-go implementation of tlsdate from ioerror
-
-original tlsdate from ioerror is at https://github.com/ioerror/tlsdate
+go implementation of tlsdate from ioerror, see https://github.com/ioerror/tlsdate
 
 this code is more a proof of concept than production code.
 
@@ -17,10 +15,22 @@ Also my commandline flags are different from the original.
 
  ```tlsdate -host="posteo.de" -port=443 -set=true```
 
+sets the system-clock to the date 'posteo.de' returned in a tls session negotiation.
+
 
  ```tlsdate -host="myhost.noip.net" -port="443" -skipVerify=true```
 
+prints systemtime from 'myhost.noip.net', ssl certificates will not be verified.
+
+The 'skipVerify' option is needed e.g. if:
+- remote cert is a self-signed cert.
+- remote cert is signed by a CA which is not listed in tlsdate-ca-roots.conf
+
 ## Install
+
+In case you have a working go environment on your system, 
+a simple go get command will do the job.
 
  ```go get github.com/scusi/tlsdate```
 
+If you have not, here is how you can: https://golang.org/doc/install.
