@@ -97,7 +97,7 @@ func main() {
 	}
 	// after we have a connection tls.ServerHeloTime should be set
 	// TODO: sanity checking of provided input
-    t := int64ToTime(tls.ServerHeloTime)
+	t := int64ToTime(tls.ServerHeloTime)
 	// print the time
 	fmt.Printf("TLS extracted timestamp: %s\n", t)
 	// if variable 'set' is true, we set system time
@@ -116,8 +116,8 @@ func main() {
 
 func int64ToTime(i int64) (t *time.Time) {
 	ts := time.Unix(i, 0)
-    t = &ts
-    return t
+	t = &ts
+	return t
 }
 
 // setTime sets the system time to given time.
